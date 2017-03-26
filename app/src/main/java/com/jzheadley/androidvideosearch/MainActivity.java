@@ -27,6 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Uri videoUri;
 
+    public static File ffmpegBin;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,14 @@ public class MainActivity extends AppCompatActivity {
                 requestPermissions(new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 1);
             }
         }
+
+        int id = getResources().getIdentifier("ffm", "raw", getPackageName());
+        InputStream ins = getResources().openRawResource(id);
+        ffmpegBin = TranscribeAudioService.insToFile(ins, getFilesDir(), "ffm");
+        if (!ffmpegBin.isFile()) {
+            Log.e(TAG, "testButton: ", new Exception());
+        }
+
     }
 
     @OnClick(R.id.record_btn)
@@ -81,9 +91,9 @@ public class MainActivity extends AppCompatActivity {
     public void testButton() {
         TranscribeAudioService transService = new TranscribeAudioService();
 
-        int id = getResources().getIdentifier("test", "raw", getPackageName());
+        int id = getResources().getIdentifier("amy", "raw", getPackageName());
         InputStream ins = getResources().openRawResource(id);
-        File videoFile = transService.insToFile(ins, getApplicationContext().getFilesDir());
+        File videoFile = transService.insToFile(ins, getApplicationContext().getFilesDir(), "testAudio");
         if (!videoFile.isFile() || !videoFile.canRead()) {
             Log.e(TAG, "testButton: ", new Exception());
         }
