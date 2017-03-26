@@ -20,6 +20,7 @@ public class VideoPlaybackActivity extends AppCompatActivity {
     @BindView(R.id.videoView)
     VideoView videoView;
 
+    // HttpMediaType.AUDIO
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

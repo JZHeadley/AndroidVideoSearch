@@ -1,7 +1,6 @@
 package com.jzheadley.androidvideosearch.services;
 
 
-import android.content.Context;
 import android.net.Uri;
 import android.util.Log;
 
@@ -10,7 +9,6 @@ import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
-import com.jzheadley.androidvideosearch.R;
 import com.jzheadley.androidvideosearch.model.AudioAnalysis;
 
 import java.io.File;
@@ -19,18 +17,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-/**
- * Created by pjhud on 3/25/2017.
- */
-
 public class TranscribeAudioService {
     private static final String TAG = "TranscribeAudioService";
 
 
-    /* Example usage:
-    AudioAnalysis analysis = new AudioAnalysis();
-    transcribeService.addTranscriptionForAudio(videoURI, analysis);
-    analysis.timesForPhrase(phraseString);
+    /**
+     *  Example usage:
+     *  @see AudioAnalysis analysis = new AudioAnalysis();
+     *  transcribeService.addTranscriptionForAudio(videoURI, analysis);
+     *  analysis.timesForPhrase(phraseString);
      */
     public void addTranscriptionForAudio(Uri videoURI, AudioAnalysis analysis) {
 
@@ -59,7 +54,7 @@ public class TranscribeAudioService {
             outputStream =
                     new FileOutputStream(f);
 
-            int read = 0;
+            int read;
             byte[] bytes = new byte[1024];
 
             while ((read = ins.read(bytes)) != -1) {

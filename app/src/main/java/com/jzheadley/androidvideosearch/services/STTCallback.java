@@ -5,10 +5,6 @@ import android.util.Log;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
 
-/**
- * Created by pjhud on 3/26/2017.
- */
-
 public class STTCallback implements RecognizeCallback {
 
     private static final String TAG = "STTCallback";
