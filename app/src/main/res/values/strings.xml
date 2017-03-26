@@ -6,4 +6,5 @@
     <string name="take_video">Take Video</string>
     <string name="stt_username">539b5b54-ed9e-4b69-b230-5e9d87168c19</string>
     <string name="stt_password">eR3ZouirbNdT</string>
+    <string name="search_hint">\tSearch word or phrase</string>
 </resources>
