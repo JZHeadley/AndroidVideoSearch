@@ -21,6 +21,11 @@ public class AudioAnalysis {
 
     private final ConcurrentHashMap<String, ArrayList<Double>> wordTimeMap = new ConcurrentHashMap<>();
 
+
+    public List<Double> timesForPhrase(String phrase) {
+        return null;
+    }
+
     public void interpretResults(SpeechResults speechResults) {
         Log.d(TAG, "interpretResults() called with: speechResults = [" + speechResults + "]");
         String text = "";

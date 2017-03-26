@@ -2,6 +2,7 @@ package com.jzheadley.androidvideosearch.services;
 
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import com.ibm.watson.developer_cloud.http.HttpMediaType;
@@ -24,6 +25,16 @@ import java.io.OutputStream;
 
 public class TranscribeAudioService {
     private static final String TAG = "TranscribeAudioService";
+
+
+    /* Example usage:
+    AudioAnalysis analysis = new AudioAnalysis();
+    transcribeService.addTranscriptionForAudio(videoURI, analysis);
+    analysis.timesForPhrase(phraseString);
+     */
+    public void addTranscriptionForAudio(Uri videoURI, AudioAnalysis analysis) {
+
+    }
 
     public void testTranscribe(InputStream ins, File dir) {
         Log.d(TAG, "testTranscribe: CALLED");
