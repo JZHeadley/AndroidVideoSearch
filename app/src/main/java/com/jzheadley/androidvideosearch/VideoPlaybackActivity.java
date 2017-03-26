@@ -19,8 +19,10 @@ public class VideoPlaybackActivity extends AppCompatActivity {
         MediaPlayer player = new MediaPlayer();
         try {
             player.setDataSource(getApplicationContext(), videoURI);
+            player.prepare();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        player.start();
     }
 }
