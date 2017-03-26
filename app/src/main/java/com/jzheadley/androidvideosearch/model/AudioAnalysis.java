@@ -38,7 +38,7 @@ public class AudioAnalysis {
     }
 
     public List<Double> timesForPhrase(String phrase) {
-        return null;
+        return wordTimeMap.get(phrase);
     }
 
 

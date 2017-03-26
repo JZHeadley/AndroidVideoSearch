@@ -35,7 +35,8 @@ public class SearchActivity extends AppCompatActivity {
                     Log.d(TAG, "onEditorAction: " + searchEditText.getText().toString());
                     AudioAnalysis analysis = new AudioAnalysis();
                     TranscribeAudioService transcribeService = new TranscribeAudioService();
-                    transcribeService.addTranscriptionForAudio(videoUri, analysis);
+
+                    transcribeService.addTranscriptionForAudio(getApplicationContext(), videoUri, analysis);
                     analysis.timesForPhrase(searchEditText.getText().toString());
                     return true;
                 }

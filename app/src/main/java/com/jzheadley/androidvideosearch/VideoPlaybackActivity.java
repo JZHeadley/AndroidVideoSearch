@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.VideoView;
 
+import com.jzheadley.androidvideosearch.model.AudioAnalysis;
 import com.jzheadley.androidvideosearch.services.TranscribeAudioService;
 
 import java.io.FileNotFoundException;
@@ -31,11 +32,8 @@ public class VideoPlaybackActivity extends AppCompatActivity {
         videoView.setVideoURI(videoURI);
         videoView.start();
         TranscribeAudioService transService = new TranscribeAudioService();
-        try {
-            transService.testTranscribe(getContentResolver().openInputStream(videoURI), getApplicationContext().getFilesDir());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
+        AudioAnalysis analysis = new AudioAnalysis();
+        transService.addTranscriptionForAudio(getApplicationContext(), videoURI, analysis);
 
     }
 }

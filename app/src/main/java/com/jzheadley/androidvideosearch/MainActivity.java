@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         int id = getResources().getIdentifier("amy", "raw", getPackageName());
         InputStream ins = getResources().openRawResource(id);
 
-        transService.addTranscriptionForAudio(ins, new AudioAnalysis());
+        transService.transcribeInputStream(ins, new AudioAnalysis());
 
     }
 

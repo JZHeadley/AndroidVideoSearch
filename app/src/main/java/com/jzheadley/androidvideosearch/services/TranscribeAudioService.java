@@ -30,10 +30,19 @@ public class TranscribeAudioService {
 
     /** Example usage:
      *  AudioAnalysis analysis = new AudioAnalysis();
-     *  transcribeService.addTranscriptionForAudio(getContentResolver().openInputStream(videoURI), analysis);
+     *  transcribeService.addTranscriptionForAudio(videoUri, analysis);
      *  analysis.timesForPhrase(phraseString);
      */
-    public void addTranscriptionForAudio(InputStream ins, AudioAnalysis analysis) {
+    public void addTranscriptionForAudio(Context context, Uri audioUri, AudioAnalysis analysis) {
+        try {
+            InputStream ins = context.getContentResolver().openInputStream(audioUri);
+            transcribeInputStream(ins, analysis);
+        } catch (Exception e){
+            Log.e(TAG, "addTranscriptionForAudio: ", e);
+        }
+
+    }
+    public void transcribeInputStream(InputStream ins, AudioAnalysis analysis) {
 
         Log.d(TAG, "testTranscribe: CALLED");
 
@@ -41,6 +50,7 @@ public class TranscribeAudioService {
         transThread.run();
 
     }
+
 
     private File insToFile(InputStream ins, File dir) {
         OutputStream outputStream = null;
