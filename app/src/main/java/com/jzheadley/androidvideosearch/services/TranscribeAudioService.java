@@ -10,6 +10,7 @@ import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
 import com.jzheadley.androidvideosearch.R;
+import com.jzheadley.androidvideosearch.model.AudioAnalysis;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -82,6 +83,7 @@ public class TranscribeAudioService {
     private class TranscribeThread extends Thread {
         File aFile;
         InputStream ins;
+        AudioAnalysis audioAnal = new AudioAnalysis();
 
         public TranscribeThread(InputStream inputStream) {
             aFile = null; //audioFile;
@@ -97,6 +99,7 @@ public class TranscribeAudioService {
 
             RecognizeOptions.Builder recOpsBld = new RecognizeOptions.Builder();
             recOpsBld.contentType(HttpMediaType.AUDIO_WAV);
+            recOpsBld.timestamps(true);
 
 
             //SpeechResults transcript = service.recognize(aFile, recOpsBld.build()).execute();
@@ -104,7 +107,7 @@ public class TranscribeAudioService {
                 @Override
                 public void onTranscription(SpeechResults speechResults) {
                     Log.d(TAG, "onTranscription: " + speechResults.toString());
-
+                    audioAnal.interpretResults(speechResults);
                 }
 
                 @Override
