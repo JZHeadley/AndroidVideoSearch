@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.VideoView;
 
+import com.jzheadley.androidvideosearch.services.TranscribeAudioService;
+
 import java.io.File;
+import java.io.InputStream;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,6 +68,19 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "handleCameraVideo: " + intent.getData());
         videoView.setVisibility(View.VISIBLE);
         videoView.start();
+    }
+
+    @OnClick(R.id.PaulsButton)
+    public void testButton() {
+        TranscribeAudioService transService = new TranscribeAudioService();
+
+        int id = getResources().getIdentifier("amy",
+                "raw", getPackageName());
+        InputStream ins = getResources().openRawResource(id);
+
+        transService.testTranscribe(ins, getApplicationContext().getFilesDir());
+
+
     }
 
     @OnClick(R.id.galleryButton)
