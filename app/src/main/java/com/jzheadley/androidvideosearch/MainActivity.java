@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.jzheadley.androidvideosearch.model.AudioAnalysis;
 import com.jzheadley.androidvideosearch.services.TranscribeAudioService;
 
 import java.io.InputStream;
@@ -75,8 +76,7 @@ public class MainActivity extends AppCompatActivity {
         int id = getResources().getIdentifier("amy", "raw", getPackageName());
         InputStream ins = getResources().openRawResource(id);
 
-        transService.testTranscribe(ins, getApplicationContext().getFilesDir());
-
+        transService.addTranscriptionForAudio(ins, new AudioAnalysis());
 
     }
 

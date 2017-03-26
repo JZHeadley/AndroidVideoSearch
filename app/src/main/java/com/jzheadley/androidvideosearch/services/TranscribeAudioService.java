@@ -9,6 +9,8 @@ import com.ibm.watson.developer_cloud.http.HttpMediaType;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechTimestamp;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.model.Transcript;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
 import com.jzheadley.androidvideosearch.R;
 import com.jzheadley.androidvideosearch.model.AudioAnalysis;
@@ -18,6 +20,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Created by pjhud on 3/25/2017.
@@ -27,19 +32,16 @@ public class TranscribeAudioService {
     private static final String TAG = "TranscribeAudioService";
 
 
-    /* Example usage:
-    AudioAnalysis analysis = new AudioAnalysis();
-    transcribeService.addTranscriptionForAudio(videoURI, analysis);
-    analysis.timesForPhrase(phraseString);
+    /** Example usage:
+     *  AudioAnalysis analysis = new AudioAnalysis();
+     *  transcribeService.addTranscriptionForAudio(getContentResolver().openInputStream(videoURI), analysis);
+     *  analysis.timesForPhrase(phraseString);
      */
-    public void addTranscriptionForAudio(Uri videoURI, AudioAnalysis analysis) {
+    public void addTranscriptionForAudio(InputStream ins, AudioAnalysis analysis) {
 
-    }
-
-    public void testTranscribe(InputStream ins, File dir) {
         Log.d(TAG, "testTranscribe: CALLED");
 
-        TranscribeThread transThread = new TranscribeThread(ins);
+        TranscribeThread transThread = new TranscribeThread(ins, analysis);
         transThread.run();
 
     }
@@ -92,13 +94,12 @@ public class TranscribeAudioService {
     }
 
     private class TranscribeThread extends Thread {
-        File aFile;
         InputStream ins;
-        AudioAnalysis audioAnal = new AudioAnalysis();
+        AudioAnalysis audioAnal;
 
-        public TranscribeThread(InputStream inputStream) {
-            aFile = null; //audioFile;
+        public TranscribeThread(InputStream inputStream, AudioAnalysis analysis) {
             ins = inputStream;
+            audioAnal = analysis;
         }
 
         @Override
@@ -118,7 +119,7 @@ public class TranscribeAudioService {
                 @Override
                 public void onTranscription(SpeechResults speechResults) {
                     Log.d(TAG, "onTranscription: " + speechResults.toString());
-                    audioAnal.interpretResults(speechResults);
+                    interpretResults(speechResults);
                 }
 
                 @Override
@@ -148,6 +149,38 @@ public class TranscribeAudioService {
             });
             //Log.d(TAG, "testTranscribe: " + transcript.toString());
         }
+
+        private void interpretResults(SpeechResults speechResults) {
+            Log.d(TAG, "interpretResults() called with: speechResults = [" + speechResults + "]");
+            String text = "";
+            ConcurrentSkipListMap<String, ArrayList<Double>> wordTimeMap = audioAnal.getWordTimeMap();
+
+            try {
+                Transcript transcript = speechResults.getResults().get(0);
+                text = transcript.getAlternatives().get(0).getTranscript();
+                audioAnal.appendTranscript(text);
+                Log.d(TAG, "interpretResults: text: " + text);
+
+                List<SpeechTimestamp> tStamps = transcript.getAlternatives().get(0).getTimestamps();
+                for (SpeechTimestamp ts : tStamps) {
+                    ArrayList<Double> times = wordTimeMap.get(ts.getWord());
+                    if (times == null) {
+                        times = new ArrayList<>();
+                        wordTimeMap.put(ts.getWord(), times);
+                    }
+                    times.add(ts.getStartTime());
+                }
+
+                for (String word : wordTimeMap.keySet()) {
+                    Log.d(TAG, "interpretResults: Word/time: " + word + "/" + wordTimeMap.get(word).toString());
+                }
+
+
+            } catch (Exception ex) {
+                Log.e(TAG, "interpretResults: caught", ex);
+            }
+        }
+
 
         public void end() throws IOException {
             //aFile.close();

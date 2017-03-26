@@ -11,6 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * Created by pjhud on 3/26/2017.
@@ -19,42 +20,28 @@ import java.util.concurrent.ConcurrentHashMap;
 public class AudioAnalysis {
     private static final String TAG = "AudioAnalysis";
 
-    private final ConcurrentHashMap<String, ArrayList<Double>> wordTimeMap = new ConcurrentHashMap<>();
+    private final ConcurrentSkipListMap<String, ArrayList<Double>> wordTimeMap = new ConcurrentSkipListMap<>();
 
+    private String transcript = "";
+
+
+    public ConcurrentSkipListMap<String, ArrayList<Double>> getWordTimeMap() {
+        return wordTimeMap;
+    }
+
+    public String getTranscript() {
+        return transcript;
+    }
+
+    public void appendTranscript(String newTranscript) {
+        transcript = transcript + newTranscript;
+    }
 
     public List<Double> timesForPhrase(String phrase) {
         return null;
     }
 
-    public void interpretResults(SpeechResults speechResults) {
-        Log.d(TAG, "interpretResults() called with: speechResults = [" + speechResults + "]");
-        String text = "";
-
-        try {
-            Transcript transcript = speechResults.getResults().get(0);
-            text = transcript.getAlternatives().get(0).getTranscript();
-            Log.d(TAG, "interpretResults: text: " + text);
-
-            List<SpeechTimestamp> tStamps = transcript.getAlternatives().get(0).getTimestamps();
-            for (SpeechTimestamp ts : tStamps) {
-                ArrayList<Double> times = wordTimeMap.get(ts.getWord());
-                if (times == null) {
-                    times = new ArrayList<>();
-                    wordTimeMap.put(ts.getWord(), times);
-                }
-                times.add(ts.getStartTime());
-            }
 
 
-
-            for (String word : wordTimeMap.keySet()) {
-                Log.d(TAG, "interpretResults: Word/time: " + word + "/" + wordTimeMap.get(word).toString());
-            }
-
-
-        } catch (Exception ex) {
-            Log.e(TAG, "interpretResults: caught", ex);
-        }
-    }
 
 }
