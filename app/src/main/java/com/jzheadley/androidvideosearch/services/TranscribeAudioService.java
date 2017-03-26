@@ -1,7 +1,7 @@
 package com.jzheadley.androidvideosearch.services;
 
 
-
+import android.content.Context;
 import android.util.Log;
 
 import com.ibm.watson.developer_cloud.http.HttpMediaType;
@@ -11,7 +11,6 @@ import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
 import com.jzheadley.androidvideosearch.R;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,11 +23,11 @@ import java.io.OutputStream;
 public class TranscribeAudioService {
     private static final String TAG = "TranscribeAudioService";
 
-    public void testTranscribe(InputStream ins, File dir) {
+    public void testTranscribe(Context context, InputStream ins, File dir) {
         File audioFile = insToFile(ins, dir);
 
         SpeechToText service = new SpeechToText();
-        service.setUsernameAndPassword("<username>", "<password>");
+        service.setUsernameAndPassword("f47ff4a4-6cab-4996-9902-f9fa987f0ba3", "eR3ZouirbNdT");
 
         RecognizeOptions.Builder recOpsBld = new RecognizeOptions.Builder();
         recOpsBld.contentType(HttpMediaType.AUDIO_WAV);

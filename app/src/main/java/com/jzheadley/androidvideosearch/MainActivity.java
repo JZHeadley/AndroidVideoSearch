@@ -4,19 +4,14 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.VideoView;
 
 import com.jzheadley.androidvideosearch.services.TranscribeAudioService;
 
-import java.io.File;
 import java.io.InputStream;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -24,8 +19,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int ACTION_TAKE_VIDEO = 3;
     private static final String TAG = "MainActivity";
     private static final int PICK_VIDEO_REQUEST = 2;
-    @BindView(R.id.videoView)
-    VideoView videoView;
+
     private Uri videoUri;
 
 
@@ -34,13 +28,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
     }
 
     @OnClick(R.id.record_btn)
     public void recordVideo() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        File mediaFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath()
-                + "/VideoSearch.mp4");
         videoUri = getContentResolver()
                 .insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, new ContentValues(1));
         takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -55,30 +48,31 @@ public class MainActivity extends AppCompatActivity {
             case ACTION_TAKE_VIDEO:
                 Log.d(TAG, "onActivityResult: " + resultCode);
                 if (resultCode == RESULT_OK) {
-
-                    handleCameraVideo(data);
+                    Intent intent = new Intent(this, VideoPlaybackActivity.class);
+                    intent.putExtra("videoUri", data.getData());
+                    startActivity(intent);
                 }
                 break;
-        }
-    }
+            case PICK_VIDEO_REQUEST:
+                Log.d(TAG, "onActivityResult: video chosen" + resultCode);
+                if (resultCode == RESULT_OK) {
+                    Log.d(TAG, "onActivityResult: " + data.getData());
 
-    private void handleCameraVideo(Intent intent) {
-        Log.d(TAG, "handleCameraVideo: Got Result");
-        videoView.setVideoURI(intent.getData());
-        Log.d(TAG, "handleCameraVideo: " + intent.getData());
-        videoView.setVisibility(View.VISIBLE);
-        videoView.start();
+                    Intent intent = new Intent(this, VideoPlaybackActivity.class);
+                    intent.putExtra("videoUri", data.getData());
+                    startActivity(intent);
+                }
+        }
     }
 
     @OnClick(R.id.PaulsButton)
     public void testButton() {
         TranscribeAudioService transService = new TranscribeAudioService();
 
-        int id = getResources().getIdentifier("amy",
-                "raw", getPackageName());
+        int id = getResources().getIdentifier("amy", "raw", getPackageName());
         InputStream ins = getResources().openRawResource(id);
 
-        transService.testTranscribe(ins, getApplicationContext().getFilesDir());
+        transService.testTranscribe(this, ins, getApplicationContext().getFilesDir());
 
 
     }
@@ -90,17 +84,4 @@ public class MainActivity extends AppCompatActivity {
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Video"), PICK_VIDEO_REQUEST);
     }
-
-    @OnClick(R.id.videoView)
-    public void startPlayback() {
-        if (videoView.isPlaying()) {
-            Log.i(TAG, "startPlayback: Pausing video");
-            videoView.pause();
-        } else {
-            Log.i(TAG, "startPlayback: Playing video");
-            videoView.start();
-        }
-    }
-
-
 }

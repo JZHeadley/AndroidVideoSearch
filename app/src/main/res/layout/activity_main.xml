@@ -7,10 +7,6 @@
     tools:context="com.jzheadley.androidvideosearch.MainActivity">
 
 
-    <VideoView
-        android:id="@+id/videoView"
-        android:layout_height="200dp"
-        android:layout_width="match_parent" />
 
     <Button
         android:id="@+id/PaulsButton"
