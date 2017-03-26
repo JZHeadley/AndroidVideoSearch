@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AndroidVideoSearch</string>
+    <string name="record_button">Record</string>
+    <string name="gallery_button">Gallery</string>
 </resources>
