@@ -26,6 +26,7 @@
         </activity>
         <activity android:name=".VideoPlaybackActivity" />
         <activity android:name=".SearchActivity" />
+
     </application>
 
 </manifest>
