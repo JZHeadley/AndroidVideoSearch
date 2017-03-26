@@ -13,6 +13,8 @@ import android.widget.EditText;
 import com.jzheadley.androidvideosearch.model.AudioAnalysis;
 import com.jzheadley.androidvideosearch.services.TranscribeAudioService;
 
+import java.util.ArrayList;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -36,7 +38,7 @@ public class SearchActivity extends AppCompatActivity {
         final TranscribeAudioService transcribeService = new TranscribeAudioService();
         transcribeService.addTranscriptionForAudio(this, videoUri, analysis);
 
-        final SearchAdapter searchAdapter = new SearchAdapter(analysis.timesForPhrase(""), videoUri);
+        final SearchAdapter searchAdapter = new SearchAdapter(new ArrayList<Double>(), videoUri);
         searchResultsList.setAdapter(searchAdapter);
 
         searchEditText.addTextChangedListener(new TextWatcher() {
