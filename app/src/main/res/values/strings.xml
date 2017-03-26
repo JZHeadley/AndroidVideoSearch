@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">AndroidVideoSearch</string>
+    <string name="app_name">PhraseFind</string>
     <string name="record_button">Record</string>
     <string name="gallery_button">Gallery</string>
     <string name="pauls_button">Paul\'s Button</string>
