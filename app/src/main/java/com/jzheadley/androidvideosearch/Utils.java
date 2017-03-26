@@ -6,6 +6,9 @@ import android.util.Log;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 
 import it.sauronsoftware.jave.AudioAttributes;
@@ -19,8 +22,21 @@ public class Utils {
     private static final String TAG = "Utils";
 
     public static File extractAudio(Context context, File file) throws EncoderException {
+        runStuff3();
+        runStuff2();
+        runStuff();
+
         File target = new File(context.getFilesDir(), "extractedAudio.flac");
-        //target.mkdirs();
+        //target.getParentFile().mkdirs();
+        try {
+            //target.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(target);
+            outputStream.close();
+        } catch (Exception e) {
+            Log.e(TAG, "extractAudio: " + e.getMessage(), e);
+        }
+
+
         AudioAttributes audioAttributes = new AudioAttributes();
         //audioAttributes.setCodec("libmp3lame");
         audioAttributes.setCodec("flac");
@@ -44,8 +60,7 @@ public class Utils {
         };
 
         Log.d(TAG, "extractAudio: LOCATOR: " + MainActivity.ffmpegBin.getPath().toString());
-        runStuff2();
-        runStuff();
+
 
         Encoder encoder = new Encoder(locator);
         encoder.encode(file, target, encodingAttributes);
@@ -56,9 +71,9 @@ public class Utils {
         String output = "";
         Log.d(TAG, "runStuff: CALLED");
         try {
-            String[] command = new String[]{"/system/bin/ls", "-l",
+            String[] command = new String[]{"/system/bin/ls", "-al",
                     //"/data/data/com.example.foo/files/ffmpeg"
-                            MainActivity.ffmpegBin.getPath().toString() //"/data/local"
+                            MainActivity.ffmpegBin.getParentFile().getPath() //"/data/local"
                     };
             /*String[] command = new String[]{"/system/bin/echo",
                     "hello!"
@@ -86,6 +101,8 @@ public class Utils {
         return output;
     }
 
+
+
     public static String runStuff2() {
         String output = "";
         Log.d(TAG, "runStuff2: CALLED");
@@ -94,6 +111,34 @@ public class Utils {
             String[] command = new String[]{"/system/bin/chmod", "+x",
                     //"/data/data/com.example.foo/files/ffmpeg"
                     MainActivity.ffmpegBin.getPath().toString() //"/data/local"
+            };
+
+            Process process = Runtime.getRuntime().exec(command);
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(process.getInputStream()));
+            int read;
+
+            //String output = "";
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                output.concat(line + "\n");
+                Log.d("myApp", "[[output]]:" + line);
+            }
+            reader.close();
+            process.waitFor();
+        }catch (Exception e ) {
+            Log.e(TAG, "runCmd: ", e);
+        }
+        return output;
+    }
+
+    public static String runStuff3() {
+        String output = "";
+        Log.d(TAG, "runStuff2: CALLED");
+        try {
+            String[] command = new String[]{"/system/bin/touch",
+                    MainActivity.ffmpegBin.getParentFile().getPath() + "extractedAudio.flac"
             };
 
             Process process = Runtime.getRuntime().exec(command);
