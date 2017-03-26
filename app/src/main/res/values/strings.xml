@@ -3,4 +3,5 @@
     <string name="record_button">Record</string>
     <string name="gallery_button">Gallery</string>
     <string name="pauls_button">Paul\'s Button</string>
+    <string name="take_video">Take Video</string>
 </resources>

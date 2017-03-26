@@ -10,7 +10,7 @@
 
     <style name="Theme.AppTheme.NoActionBar" parent="android:Theme.Holo" />
 
-    <style name="AndroidVideoSearch" parent="Theme.AppTheme.NoActionBar" >
+    <style name="AndroidVideoSearch" parent="Theme.AppCompat.NoActionBar">
         <item name="android:textColorSecondary">@android:color/holo_blue_dark</item>
     </style>
 

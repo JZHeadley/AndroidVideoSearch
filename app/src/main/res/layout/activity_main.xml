@@ -2,40 +2,45 @@
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    android:layout_width="match_parent"
     tools:context="com.jzheadley.androidvideosearch.MainActivity">
+
+
+    <VideoView
+        android:id="@+id/videoView"
+        android:layout_height="200dp"
+        android:layout_width="match_parent" />
 
     <Button
         android:id="@+id/PaulsButton"
-        android:layout_width="300dp"
-        android:layout_height="90dp"
         android:layout_centerHorizontal="true"
+        android:layout_height="90dp"
         android:layout_marginTop="20dp"
+        android:layout_width="300dp"
         android:text="@string/pauls_button"
         android:textSize="40sp" />
 
     <Button
-        android:id="@+id/recordButton"
-        android:layout_width="300dp"
-        android:layout_height="90dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="150dp"
         android:drawableLeft="@drawable/ic_mic"
         android:drawableStart="@drawable/ic_mic"
+        android:id="@+id/record_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_height="90dp"
+        android:layout_marginTop="150dp"
+        android:layout_width="300dp"
         android:text="@string/record_button"
         android:textSize="40sp" />
 
     <Button
-        android:id="@+id/galleryButton"
-        android:layout_width="300dp"
-        android:layout_height="90dp"
-        android:layout_below="@+id/recordButton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
         android:drawableLeft="@drawable/ic_panorama"
         android:drawableStart="@drawable/ic_panorama"
+        android:id="@+id/galleryButton"
+        android:layout_below="@+id/record_btn"
+        android:layout_centerHorizontal="true"
+        android:layout_height="90dp"
+        android:layout_marginTop="30dp"
+        android:layout_width="300dp"
         android:text="@string/gallery_button"
         android:textSize="40sp" />
 
