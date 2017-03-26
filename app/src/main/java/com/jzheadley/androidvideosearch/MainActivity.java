@@ -24,11 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private static final int ACTION_TAKE_VIDEO = 3;
     private static final String TAG = "MainActivity";
     private static final int PICK_VIDEO_REQUEST = 2;
-
-    private Uri videoUri;
-
     public static File ffmpegBin;
-
+    private Uri videoUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,9 +88,9 @@ public class MainActivity extends AppCompatActivity {
     public void testButton() {
         TranscribeAudioService transService = new TranscribeAudioService();
 
-        int id = getResources().getIdentifier("amy", "raw", getPackageName());
+        int id = getResources().getIdentifier("test", "raw", getPackageName());
         InputStream ins = getResources().openRawResource(id);
-        File videoFile = transService.insToFile(ins, getApplicationContext().getFilesDir(), "testAudio");
+        File videoFile = TranscribeAudioService.insToFile(ins, getApplicationContext().getFilesDir(), "testAudio");
         if (!videoFile.isFile() || !videoFile.canRead()) {
             Log.e(TAG, "testButton: ", new Exception());
         }

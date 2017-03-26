@@ -4,11 +4,8 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 
 import it.sauronsoftware.jave.AudioAttributes;
@@ -55,11 +52,11 @@ public class Utils {
         FFMPEGLocator locator = new FFMPEGLocator() {
             @Override
             protected String getFFMPEGExecutablePath() {
-                return MainActivity.ffmpegBin.getPath().toString();
+                return MainActivity.ffmpegBin.getPath();
             }
         };
 
-        Log.d(TAG, "extractAudio: LOCATOR: " + MainActivity.ffmpegBin.getPath().toString());
+        Log.d(TAG, "extractAudio: LOCATOR: " + MainActivity.ffmpegBin.getPath());
 
 
         Encoder encoder = new Encoder(locator);
@@ -71,23 +68,15 @@ public class Utils {
         String output = "";
         Log.d(TAG, "runStuff: CALLED");
         try {
-            String[] command = new String[]{"/system/bin/ls", "-al",
-                    //"/data/data/com.example.foo/files/ffmpeg"
-                            MainActivity.ffmpegBin.getParentFile().getPath() //"/data/local"
-                    };
-            /*String[] command = new String[]{"/system/bin/echo",
-                    "hello!"
-            };*/
-            /*String[] command = new String[]{"/system/bin/chmod", "+x",
-                            "/data/local/ffm"
-                    };*/
+            String[] command = new String[] {"/system/bin/ls", "-al",
+                    MainActivity.ffmpegBin.getParentFile().getPath() //"/data/local"
+            };
             Process process = Runtime.getRuntime().exec(command);
             BufferedReader reader = new BufferedReader(
                     new InputStreamReader(process.getInputStream()));
             int read;
 
             //String output = "";
-
             String line;
             while ((line = reader.readLine()) != null) {
                 output.concat(line + "\n");
@@ -95,22 +84,19 @@ public class Utils {
             }
             reader.close();
             process.waitFor();
-        }catch (Exception e ) {
+        } catch (Exception e) {
             Log.e(TAG, "runCmd: ", e);
         }
         return output;
     }
 
 
-
     public static String runStuff2() {
         String output = "";
         Log.d(TAG, "runStuff2: CALLED");
         try {
-            //String[] command = new String[]{"/system/bin/touch", "/data/local/touchTest"};
-            String[] command = new String[]{"/system/bin/chmod", "+x",
-                    //"/data/data/com.example.foo/files/ffmpeg"
-                    MainActivity.ffmpegBin.getPath().toString() //"/data/local"
+            String[] command = new String[] {"/system/bin/chmod", "+x",
+                    MainActivity.ffmpegBin.getPath() //"/data/local"
             };
 
             Process process = Runtime.getRuntime().exec(command);
@@ -127,7 +113,7 @@ public class Utils {
             }
             reader.close();
             process.waitFor();
-        }catch (Exception e ) {
+        } catch (Exception e) {
             Log.e(TAG, "runCmd: ", e);
         }
         return output;
@@ -137,7 +123,7 @@ public class Utils {
         String output = "";
         Log.d(TAG, "runStuff2: CALLED");
         try {
-            String[] command = new String[]{"/system/bin/touch",
+            String[] command = new String[] {"/system/bin/touch",
                     MainActivity.ffmpegBin.getParentFile().getPath() + "extractedAudio.flac"
             };
 
@@ -155,7 +141,7 @@ public class Utils {
             }
             reader.close();
             process.waitFor();
-        }catch (Exception e ) {
+        } catch (Exception e) {
             Log.e(TAG, "runCmd: ", e);
         }
         return output;
