@@ -3,6 +3,8 @@ package com.jzheadley.androidvideosearch;
 import android.content.Context;
 import android.util.Log;
 
+import org.apache.tools.ant.taskdefs.optional.j2ee.WebLogicHotDeploymentTool;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,8 +13,10 @@ import java.io.InputStreamReader;
 import it.sauronsoftware.jave.AudioAttributes;
 import it.sauronsoftware.jave.Encoder;
 import it.sauronsoftware.jave.EncoderException;
+import it.sauronsoftware.jave.EncoderProgressListener;
 import it.sauronsoftware.jave.EncodingAttributes;
 import it.sauronsoftware.jave.FFMPEGLocator;
+import it.sauronsoftware.jave.MultimediaInfo;
 
 
 public class Utils {
@@ -34,14 +38,34 @@ public class Utils {
         }
 
 
+        EncoderProgressListener listen = new EncoderProgressListener() {
+            @Override
+            public void sourceInfo(MultimediaInfo multimediaInfo) {
+                Log.d(TAG, "LISTENER sourceInfo: " + multimediaInfo.toString());
+                //multimediaInfo.getAudio().getDecoder();
+            }
+
+            @Override
+            public void progress(int i) {
+                Log.d(TAG, "LISTENER progress: " + i);
+            }
+
+            @Override
+            public void message(String s) {
+                Log.d(TAG, "LISTENER message: " + s);
+            }
+        };
+
+
         AudioAttributes audioAttributes = new AudioAttributes();
-        //audioAttributes.setCodec("libmp3lame");
-        audioAttributes.setCodec("flac");
-        audioAttributes.setBitRate(128000);
-        audioAttributes.setChannels(2);
-        audioAttributes.setSamplingRate(44100);
+        audioAttributes.setCodec("libmp3lame");
+        //audioAttributes.setCodec("flac");
+        //audioAttributes.setCodec(AudioAttributes.DIRECT_STREAM_COPY);
+        //audioAttributes.setBitRate(128000);
+        //audioAttributes.setChannels(2);
+        //audioAttributes.setSamplingRate(44100);
         EncodingAttributes encodingAttributes = new EncodingAttributes();
-        encodingAttributes.setFormat("flac");
+        encodingAttributes.setFormat("mp3");
         encodingAttributes.setAudioAttributes(audioAttributes);
 
         if (!target.isFile()) {
@@ -60,7 +84,8 @@ public class Utils {
 
 
         Encoder encoder = new Encoder(locator);
-        encoder.encode(file, target, encodingAttributes);
+        Log.d(TAG, "extractAudio: FileSize: " + file.length());
+        encoder.encode(file, target, encodingAttributes, listen);
         return target;
     }
 
