@@ -12,6 +12,7 @@ import android.util.Log;
 import com.jzheadley.androidvideosearch.model.AudioAnalysis;
 import com.jzheadley.androidvideosearch.services.TranscribeAudioService;
 
+import java.io.File;
 import java.io.InputStream;
 
 import butterknife.ButterKnife;
@@ -73,11 +74,13 @@ public class MainActivity extends AppCompatActivity {
     public void testButton() {
         TranscribeAudioService transService = new TranscribeAudioService();
 
-        int id = getResources().getIdentifier("amy", "raw", getPackageName());
+        int id = getResources().getIdentifier("test", "raw", getPackageName());
         InputStream ins = getResources().openRawResource(id);
+        File videoFile = transService.insToFile(ins, getApplicationContext().getFilesDir());
 
-        transService.transcribeInputStream(ins, new AudioAnalysis());
 
+        //transService.transcribeInputStream(ins, new AudioAnalysis());
+        transService.addTranscriptionForAudio(getApplicationContext(), Uri.fromFile(videoFile), new AudioAnalysis());
     }
 
     @OnClick(R.id.galleryButton)

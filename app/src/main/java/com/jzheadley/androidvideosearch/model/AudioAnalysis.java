@@ -41,7 +41,4 @@ public class AudioAnalysis {
         return wordTimeMap.get(phrase);
     }
 
-
-
-
 }

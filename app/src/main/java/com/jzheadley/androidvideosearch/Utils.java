@@ -11,19 +11,21 @@ import it.sauronsoftware.jave.EncodingAttributes;
 
 
 public class Utils {
-    public File extractAudio(Context context, File file) throws EncoderException {
-        File target = new File(context.getFilesDir(), "extractedAudio.mp3");
+    public static File extractAudio(Context context, File file) throws EncoderException {
+        File target = new File(context.getFilesDir(), "extractedAudio.flac");
         AudioAttributes audioAttributes = new AudioAttributes();
-        audioAttributes.setCodec("libmp3lame");
+        //audioAttributes.setCodec("libmp3lame");
+        audioAttributes.setCodec("flac");
         audioAttributes.setBitRate(128000);
         audioAttributes.setChannels(2);
         audioAttributes.setSamplingRate(44100);
         EncodingAttributes encodingAttributes = new EncodingAttributes();
-        encodingAttributes.setFormat("mp3");
+        encodingAttributes.setFormat("flac");
         encodingAttributes.setAudioAttributes(audioAttributes);
 
         Encoder encoder = new Encoder();
         encoder.encode(file, target, encodingAttributes);
         return target;
     }
+
 }

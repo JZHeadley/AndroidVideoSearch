@@ -13,9 +13,11 @@ import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechTimestamp;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.Transcript;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
 import com.jzheadley.androidvideosearch.R;
+import com.jzheadley.androidvideosearch.Utils;
 import com.jzheadley.androidvideosearch.model.AudioAnalysis;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -33,15 +35,20 @@ public class TranscribeAudioService {
      *  transcribeService.addTranscriptionForAudio(videoUri, analysis);
      *  analysis.timesForPhrase(phraseString);
      */
-    public void addTranscriptionForAudio(Context context, Uri audioUri, AudioAnalysis analysis) {
+    public void addTranscriptionForAudio(Context context, Uri videoUri, AudioAnalysis analysis) {
         try {
-            InputStream ins = context.getContentResolver().openInputStream(audioUri);
-            transcribeInputStream(ins, analysis);
+            InputStream ins = context.getContentResolver().openInputStream(videoUri);
+            File videoFile = insToFile(ins, context.getFilesDir());
+            File flacFile = Utils.extractAudio(context, videoFile);
+            InputStream flacIns = new FileInputStream(videoFile);
+            transcribeInputStream(flacIns, analysis);
+
         } catch (Exception e){
             Log.e(TAG, "addTranscriptionForAudio: ", e);
         }
 
     }
+
     public void transcribeInputStream(InputStream ins, AudioAnalysis analysis) {
 
         Log.d(TAG, "testTranscribe: CALLED");
@@ -52,7 +59,7 @@ public class TranscribeAudioService {
     }
 
 
-    private File insToFile(InputStream ins, File dir) {
+    public File insToFile(InputStream ins, File dir) {
         OutputStream outputStream = null;
 
         File f = null;
@@ -116,7 +123,7 @@ public class TranscribeAudioService {
             service.setUsernameAndPassword("fe439343-c64a-4f1b-b03c-2b004f5a7620", "qhMuQEuZuv1N");
 
             RecognizeOptions.Builder recOpsBld = new RecognizeOptions.Builder();
-            recOpsBld.contentType(HttpMediaType.AUDIO_WAV);
+            recOpsBld.contentType(HttpMediaType.AUDIO_FLAC);
             recOpsBld.timestamps(true);
 
 
