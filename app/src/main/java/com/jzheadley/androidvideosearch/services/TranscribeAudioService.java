@@ -26,10 +26,10 @@ public class TranscribeAudioService {
 
     public void testTranscribe(InputStream ins, File dir) {
         Log.d(TAG, "testTranscribe: CALLED");
-        File audioFile = insToFile(ins, dir);
 
-        TranscribeThread transThread = new TranscribeThread(audioFile, ins);
+        TranscribeThread transThread = new TranscribeThread(ins);
         transThread.run();
+
     }
 
     private File insToFile(InputStream ins, File dir) {
@@ -83,8 +83,8 @@ public class TranscribeAudioService {
         File aFile;
         InputStream ins;
 
-        public TranscribeThread(File audioFile, InputStream inputStream) {
-            aFile = audioFile;
+        public TranscribeThread(InputStream inputStream) {
+            aFile = null; //audioFile;
             ins = inputStream;
         }
 
@@ -92,7 +92,8 @@ public class TranscribeAudioService {
         public void run() {
             Log.d(TAG, "run: RUNNING TRANS THREAD");
             SpeechToText service = new SpeechToText();
-            service.setUsernameAndPassword("f47ff4a4-6cab-4996-9902-f9fa987f0ba3", "eR3ZouirbNdT");
+            //service.setUsernameAndPassword("f47ff4a4-6cab-4996-9902-f9fa987f0ba3", "eR3ZouirbNdT");
+            service.setUsernameAndPassword("fe439343-c64a-4f1b-b03c-2b004f5a7620", "qhMuQEuZuv1N");
 
             RecognizeOptions.Builder recOpsBld = new RecognizeOptions.Builder();
             recOpsBld.contentType(HttpMediaType.AUDIO_WAV);
