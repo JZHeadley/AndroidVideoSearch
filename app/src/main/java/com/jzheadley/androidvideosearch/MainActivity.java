@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     public void testButton() {
         TranscribeAudioService transService = new TranscribeAudioService();
 
-        int id = getResources().getIdentifier("test", "raw", getPackageName());
+        int id = getResources().getIdentifier("t", "raw", getPackageName());
         InputStream ins = getResources().openRawResource(id);
         File videoFile = TranscribeAudioService.insToFile(ins, getApplicationContext().getFilesDir(), "testAudio");
         if (!videoFile.isFile() || !videoFile.canRead()) {
