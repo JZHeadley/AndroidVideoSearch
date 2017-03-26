@@ -8,6 +8,7 @@ import com.ibm.watson.developer_cloud.http.HttpMediaType;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.SpeechToText;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.RecognizeOptions;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
+import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
 import com.jzheadley.androidvideosearch.R;
 
 import java.io.File;
@@ -23,18 +24,12 @@ import java.io.OutputStream;
 public class TranscribeAudioService {
     private static final String TAG = "TranscribeAudioService";
 
-    public void testTranscribe(Context context, InputStream ins, File dir) {
+    public void testTranscribe(InputStream ins, File dir) {
+        Log.d(TAG, "testTranscribe: CALLED");
         File audioFile = insToFile(ins, dir);
 
-        SpeechToText service = new SpeechToText();
-        service.setUsernameAndPassword("f47ff4a4-6cab-4996-9902-f9fa987f0ba3", "eR3ZouirbNdT");
-
-        RecognizeOptions.Builder recOpsBld = new RecognizeOptions.Builder();
-        recOpsBld.contentType(HttpMediaType.AUDIO_WAV);
-
-
-        SpeechResults transcript = service.recognize(audioFile, recOpsBld.build()).execute();
-        Log.d(TAG, "testTranscribe: " + transcript.toString());
+        TranscribeThread transThread = new TranscribeThread(audioFile, ins);
+        transThread.run();
     }
 
     private File insToFile(InputStream ins, File dir) {
@@ -82,5 +77,65 @@ public class TranscribeAudioService {
             }
         }
         return f;
+    }
+
+    private class TranscribeThread extends Thread {
+        File aFile;
+        InputStream ins;
+
+        public TranscribeThread(File audioFile, InputStream inputStream) {
+            aFile = audioFile;
+            ins = inputStream;
+        }
+
+        @Override
+        public void run() {
+            Log.d(TAG, "run: RUNNING TRANS THREAD");
+            SpeechToText service = new SpeechToText();
+            service.setUsernameAndPassword("f47ff4a4-6cab-4996-9902-f9fa987f0ba3", "eR3ZouirbNdT");
+
+            RecognizeOptions.Builder recOpsBld = new RecognizeOptions.Builder();
+            recOpsBld.contentType(HttpMediaType.AUDIO_WAV);
+
+
+            //SpeechResults transcript = service.recognize(aFile, recOpsBld.build()).execute();
+            service.recognizeUsingWebSocket(ins, recOpsBld.build(), new RecognizeCallback() {
+                @Override
+                public void onTranscription(SpeechResults speechResults) {
+                    Log.d(TAG, "onTranscription: " + speechResults.toString());
+
+                }
+
+                @Override
+                public void onConnected() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+
+                }
+
+                @Override
+                public void onDisconnected() {
+
+                }
+
+                @Override
+                public void onInactivityTimeout(RuntimeException runtimeException) {
+
+                }
+
+                @Override
+                public void onListening() {
+
+                }
+            });
+            //Log.d(TAG, "testTranscribe: " + transcript.toString());
+        }
+
+        public void end() throws IOException {
+            //aFile.close();
+        }
     }
 }

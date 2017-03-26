@@ -31,7 +31,7 @@ public class VideoPlaybackActivity extends AppCompatActivity {
         videoView.start();
         TranscribeAudioService transService = new TranscribeAudioService();
         try {
-            transService.testTranscribe(this, getContentResolver().openInputStream(videoURI), getApplicationContext().getFilesDir());
+            transService.testTranscribe(getContentResolver().openInputStream(videoURI), getApplicationContext().getFilesDir());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

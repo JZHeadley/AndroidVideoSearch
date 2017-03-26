@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         ButterKnife.bind(this);
 
     }
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
         int id = getResources().getIdentifier("amy", "raw", getPackageName());
         InputStream ins = getResources().openRawResource(id);
 
-        transService.testTranscribe(this, ins, getApplicationContext().getFilesDir());
+        transService.testTranscribe(ins, getApplicationContext().getFilesDir());
 
 
     }
