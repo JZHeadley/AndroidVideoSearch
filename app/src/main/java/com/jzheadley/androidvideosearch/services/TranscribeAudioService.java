@@ -26,6 +26,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListMap;
 
+import it.sauronsoftware.jave.AudioAttributes;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.EncodingAttributes;
+
 public class TranscribeAudioService {
     private static final String TAG = "TranscribeAudioService";
 
@@ -40,7 +44,7 @@ public class TranscribeAudioService {
             InputStream ins = context.getContentResolver().openInputStream(videoUri);
             File videoFile = insToFile(ins, context.getFilesDir());
             File flacFile = Utils.extractAudio(context, videoFile);
-            InputStream flacIns = new FileInputStream(videoFile);
+            InputStream flacIns = new FileInputStream(flacFile);
             transcribeInputStream(flacIns, analysis);
 
         } catch (Exception e){
@@ -196,4 +200,6 @@ public class TranscribeAudioService {
             //aFile.close();
         }
     }
+
+
 }
