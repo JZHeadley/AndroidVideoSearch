@@ -65,9 +65,6 @@ public class TranscribeAudioService {
         File f = null;
 
         try {
-            // read this file into InputStream
-            //inputStream = new FileInputStream("/Users/mkyong/Downloads/holder.js");
-
             // write the inputStream to a FileOutputStream
             f = new File(dir, "testAudioFile");
 
@@ -108,7 +105,7 @@ public class TranscribeAudioService {
 
     private class TranscribeThread extends Thread {
         InputStream ins;
-        AudioAnalysis audioAnal;
+        AudioAnalysis audioAnal; // Well then... I guess it was good...
 
         public TranscribeThread(InputStream inputStream, AudioAnalysis analysis) {
             ins = inputStream;
