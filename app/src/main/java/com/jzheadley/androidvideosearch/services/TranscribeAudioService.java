@@ -12,7 +12,6 @@ import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechResults;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.SpeechTimestamp;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.model.Transcript;
 import com.ibm.watson.developer_cloud.speech_to_text.v1.websocket.RecognizeCallback;
-import com.jzheadley.androidvideosearch.R;
 import com.jzheadley.androidvideosearch.model.AudioAnalysis;
 
 import java.io.File;
@@ -58,9 +57,6 @@ public class TranscribeAudioService {
         File f = null;
 
         try {
-            // read this file into InputStream
-            //inputStream = new FileInputStream("/Users/mkyong/Downloads/holder.js");
-
             // write the inputStream to a FileOutputStream
             f = new File(dir, "testAudioFile");
 
@@ -101,7 +97,7 @@ public class TranscribeAudioService {
 
     private class TranscribeThread extends Thread {
         InputStream ins;
-        AudioAnalysis audioAnal;
+        AudioAnalysis audioAnal; // Well then... I guess it was good...
 
         public TranscribeThread(InputStream inputStream, AudioAnalysis analysis) {
             ins = inputStream;
