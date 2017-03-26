@@ -7,25 +7,18 @@
     tools:context="com.jzheadley.androidvideosearch.MainActivity">
 
 
-
     <Button
-        android:id="@+id/PaulsButton"
-        android:layout_centerHorizontal="true"
-        android:layout_height="90dp"
-        android:layout_marginTop="20dp"
-        android:layout_width="300dp"
-        android:text="@string/pauls_button"
-        android:textSize="40sp" />
-
-    <Button
-        android:drawableLeft="@drawable/ic_mic"
-        android:drawableStart="@drawable/ic_mic"
+        android:drawableLeft="@drawable/ic_videocam"
+        android:drawableStart="@drawable/ic_videocam"
         android:id="@+id/record_btn"
         android:layout_centerHorizontal="true"
         android:layout_height="90dp"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="180dp"
+        android:paddingLeft="15dp"
         android:layout_width="300dp"
+        android:background="@xml/button"
         android:text="@string/record_button"
+        android:fontFamily="sans-serif-condensed"
         android:textSize="40sp" />
 
     <Button
@@ -35,10 +28,24 @@
         android:layout_below="@+id/record_btn"
         android:layout_centerHorizontal="true"
         android:layout_height="90dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="80dp"
+        android:paddingLeft="17dp"
         android:layout_width="300dp"
+        android:background="@xml/button"
         android:text="@string/gallery_button"
+        android:fontFamily="sans-serif-condensed"
         android:textSize="40sp" />
+
+    <Button
+        android:id="@+id/PaulsButton"
+        android:layout_below="@+id/galleryButton"
+        android:layout_centerHorizontal="true"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="40dp"
+        android:fontFamily="sans-serif-condensed"
+        android:text="@string/pauls_button"
+        android:textSize="15sp" />
 
 </RelativeLayout>
 
