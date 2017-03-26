@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
             case ACTION_TAKE_VIDEO:
                 Log.d(TAG, "onActivityResult: " + resultCode);
                 if (resultCode == RESULT_OK) {
-                    Intent intent = new Intent(this, VideoPlaybackActivity.class);
+                    Intent intent = new Intent(this, SearchActivity.class);
                     intent.putExtra("videoUri", data.getData());
                     startActivity(intent);
                 }
@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 if (resultCode == RESULT_OK) {
                     Log.d(TAG, "onActivityResult: " + data.getData());
 
-                    Intent intent = new Intent(this, VideoPlaybackActivity.class);
+                    Intent intent = new Intent(this, SearchActivity.class);
                     intent.putExtra("videoUri", data.getData());
                     startActivity(intent);
                 }

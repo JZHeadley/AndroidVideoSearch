@@ -24,10 +24,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentSkipListMap;
 
-/**
- * Created by pjhud on 3/25/2017.
- */
-
 public class TranscribeAudioService {
     private static final String TAG = "TranscribeAudioService";
 
@@ -61,7 +57,7 @@ public class TranscribeAudioService {
             outputStream =
                     new FileOutputStream(f);
 
-            int read = 0;
+            int read;
             byte[] bytes = new byte[1024];
 
             while ((read = ins.read(bytes)) != -1) {
